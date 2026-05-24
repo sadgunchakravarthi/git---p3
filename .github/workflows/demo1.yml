@@ -6,6 +6,15 @@ on:
 
   workflow_dispatch:
   push:
+    branches:
+      - main      # Triggers on pushes to the exact branch named 'main'
+      - "dev-*"   # Triggers on pushes to branches starting with 'dev-' (e.g., dev-feature; does not match slashes)
+      - "feat/**" # Triggers on pushes to branches starting with 'feat/' and any nested sub-branches (e.g., feat/ui, feat/api/auth)
+    paths-ignore:
+      - '.github/workflows/**'  #Workflow won't trigger if changes are only in these paths (e.g. documentation, workflow files)
+    # paths:
+    #   - 'src/**'             # Workflow triggers ONLY when changes are made to these paths.
+    #   # NOTE: You cannot use both 'paths' and 'paths-ignore' for the same event in a workflow.
 jobs:
   deploy:
     runs-on: ubuntu-latest
